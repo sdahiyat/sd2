@@ -1,41 +1,33 @@
 export type UserRole = 'advisor' | 'client'
 
-export type DocumentStatus = 'uploading' | 'uploaded' | 'processing' | 'ready' | 'failed'
-
-export type DocumentCategory = 'tax_return' | 'investment_statement' | 'insurance_policy' | 'estate_document' | 'bank_statement' | 'other'
-
-export type InsightStatus = 'needs_documents' | 'processing' | 'ready' | 'failed'
-
 export interface User {
   id: string
   email: string
   role: UserRole
+  advisor_id?: string
   created_at: string
-  updated_at: string
 }
 
 export interface Client {
   id: string
-  advisor_id: string
   name: string
   email: string
   phone?: string
   notes?: string
+  advisor_id: string
   created_at: string
   updated_at: string
-  archived_at?: string
 }
 
 export interface Document {
   id: string
   client_id: string
-  advisor_id: string
   filename: string
-  file_type: string
   file_size: number
-  status: DocumentStatus
-  category?: DocumentCategory
+  mime_type: string
   storage_path: string
+  status: 'uploading' | 'uploaded' | 'processing' | 'ready' | 'failed'
+  category?: string
   extracted_text?: string
   structured_data?: Record<string, any>
   created_at: string
@@ -49,7 +41,6 @@ export interface Insight {
   content: string
   version: number
   created_at: string
-  updated_at: string
 }
 
 export interface ChatMessage {
@@ -59,16 +50,5 @@ export interface ChatMessage {
   content: string
   mode: 'personal' | 'general'
   sources?: string[]
-  created_at: string
-}
-
-export interface VectorEmbedding {
-  id: string
-  client_id: string
-  document_id: string
-  chunk_text: string
-  chunk_index: number
-  document_category: DocumentCategory
-  embedding: number[]
   created_at: string
 }
